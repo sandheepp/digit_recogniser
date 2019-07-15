@@ -1,9 +1,8 @@
- import pandas as pd
+import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import seaborn as sns
-%matplotlib inline
 
 np.random.seed(2)
 
@@ -20,3 +19,7 @@ from keras.callbacks import ReduceLROnPlateau
 
 
 sns.set(style='white', context='notebook', palette='deep')
+
+# Load the data
+train = pd.read_csv("../input/train.csv")
+test = pd.read_csv("../input/test.csv")
