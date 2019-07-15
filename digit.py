@@ -25,19 +25,19 @@ train = pd.read_csv("input/train.csv")
 test = pd.read_csv("input/test.csv")
 
 
-
+#Take the values of only the column "label"
 Y_train = train["label"]
 
 # Drop 'label' column
 X_train = train.drop(labels = ["label"],axis = 1) 
 
-# free some space
+# delete the train variable
 del train 
 
 g = sns.countplot(Y_train)
 Y_train.value_counts()
 
-# Check the data
+# Check the data if any null value exists
 X_train.isnull().any().describe()
 
 # Normalize the data
@@ -50,7 +50,6 @@ test = test.values.reshape(-1,28,28,1)
 
 # Encode labels to one hot vectors (ex : 2 -> [0,0,1,0,0,0,0,0,0,0])
 Y_train = to_categorical(Y_train, num_classes = 10)
-
 
 # Set the random seed
 random_seed = 2
@@ -88,7 +87,6 @@ model.add(Flatten())
 model.add(Dense(256, activation = "relu"))
 model.add(Dropout(0.5))
 model.add(Dense(10, activation = "softmax"))
-
 
 
 # Define the optimizer
@@ -136,6 +134,7 @@ history = model.fit_generator(datagen.flow(X_train,Y_train, batch_size=batch_siz
                               verbose = 2, steps_per_epoch=X_train.shape[0] // batch_size
                               , callbacks=[learning_rate_reduction])
 
+plt.figure(101)
 # Plot the loss and accuracy curves for training and validation 
 fig, ax = plt.subplots(2,1)
 ax[0].plot(history.history['loss'], color='b', label="Training loss")
@@ -147,7 +146,6 @@ ax[1].plot(history.history['val_acc'], color='r',label="Validation accuracy")
 legend = ax[1].legend(loc='best', shadow=True)
 
 # Look at confusion matrix 
-
 def plot_confusion_matrix(cm, classes,
                           normalize=False,
                           title='Confusion matrix',
